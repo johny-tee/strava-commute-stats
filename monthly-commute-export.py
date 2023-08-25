@@ -13,7 +13,7 @@ if __name__ == "__main__":
     month = 8
     year = 2023
 
-    print("Athlete's name is {} {}, based in {}, {}".format(athlete.firstname, athlete.lastname, athlete.city,
+    print("Athlete: {} - {} {}, based in {}, {}".format(athlete.id, athlete.firstname, athlete.lastname, athlete.city,
                                                             athlete.country))
 
     print("Commute monthly report\n")
