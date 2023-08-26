@@ -1,13 +1,13 @@
 #
+import sys
 from argparse import ArgumentParser
 import strava_if
 
-if __name__ == "__main__":
 
-    #
-    # Parse command line parameters
-    #
-    parser = ArgumentParser()
+def parse_cmdline_args():
+    global year, month, com_or_tag, tag_value, args, parser
+
+    parser = ArgumentParser(description='Strava commute activities reporting')
 
     # Month: 1-12
     parser.add_argument("-m", "--month", action="append", type=int)
@@ -22,6 +22,36 @@ if __name__ == "__main__":
     parser.add_argument("-T", "--tag", action="append", type=str)
 
     args = parser.parse_args()
+
+    if args.month is None or args.year is None or args.mode is None:
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    if args.mode[0] == 'T' and args.tag is None:
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    if args.month[0] > 12 or args.month[0] < 1:
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    if args.year[0] > 9999 or args.year[0] < 1900:
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    if not (args.mode[0] == 'C' or args.mode[0] == 'T'):
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    if args.mode[0] == 'T' and args.tag[0] == "":
+        parser.print_help(sys.stderr)
+        exit(-1)
+
+    return 0
+
+
+if __name__ == "__main__":
+    parse_cmdline_args()
 
     year = args.year[0]
     month = args.month[0]
